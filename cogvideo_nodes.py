@@ -49,7 +49,8 @@ class CogVideoUploader:
     RETURN_TYPES = ("VIDEO",)
     FUNCTION = "generate_video"
     CATEGORY = "CogVideo"
-
+    RETURN_TYPES = ("STRING",)  # 改为返回字符串类型
+    RETURN_NAMES = ("video_path",)  # 可选：添加返回值的名称
     @retry_on_network_error(max_retries=3, delay=2)
     def download_video(self, video_url, chat_id):
         try:
@@ -251,7 +252,7 @@ class CogVideoUploader:
                         # 下载视频并获取本地路径
                         video_path = self.download_video(status['video_url'], chat_id)
                         # 将视频路径包装在元组中返回
-                        return ([video_path],)
+                        return (video_path,)  # 直接返回字符串路径
                     else:
                         raise Exception("Video generation completed but no video URL found")
                 elif status['status'] == 'failed':
