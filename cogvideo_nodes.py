@@ -40,7 +40,7 @@ class CogVideoUploader:
                 "image": ("IMAGE",),
                 "prompt": ("STRING", {"default": "让画面整体动起来"}),
                 "bearer_token": ("STRING", {
-                    "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZTY3MWIyN2NlM2U0MzMxYmIzNmRmODY1Yjk4NDAzNiIsImV4cCI6MTczNzYzMDI1NywibmJmIjoxNzM3NTQzODU3LCJpYXQiOjE3Mzc1NDM4NTcsImp0aSI6ImFiMDZjYjNiN2IzNDQyNmNhZGMxYjkwNzE2OTk1ZGExIiwidWlkIjoiNjcwZThmNDgxMDQ0NWEyYjAzNTI3YmYzIiwidHlwZSI6ImFjY2VzcyJ9.Cc3EKq-o7hoiH7_gdFBE1Y4_CHTsf2dYtA2YgizXtUo",
+                    "default": "eyJhbGciOiJIUzzI1NiI2222sInR5cCI6IkpXVCJ9.eyJzdWIiOi3I2ZTY43MWIyN2NlM2U0MzMxYmIzNmRmODY1Yjk4NDAzNiIsImV4cCI6MTczNzYzMDI1NywibmJmIjoxNzM3NTQzODU3LCJpYXQiOjE3Mzc1NDM4NTcsImp0aSI6ImFiMDZjYjNiN2IzNDQyNmNhZGMxYjkwNzE2OTk1ZGExIiwidWlkIjoiNjcwZThmNDgxMDQ0NWEyYjAzNTI3YmYzIiwidHlwZSI6ImFjY2VzcyJ9.Cc3EKq-o7hoiH7_gdFBE1Y4_CHTsf2dYtA2YgizXtUo",
                     "multiline": False
                 })
             }
