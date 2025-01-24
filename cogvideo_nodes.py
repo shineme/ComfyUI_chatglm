@@ -32,17 +32,13 @@ class CogVideoUploader:
     def __init__(self):
         self.base_url = "https://chatglm.cn/chatglm/video-api/v1"
         self.boundary = "----WebKitFormBoundaryPKsRz2SJGSka9hll"
-        
+        self.bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZTY3MWIyN2NlM2U0MzMxYmIzNmRmODY1Yjk4zNDAzNiIsImV4cCI6MTczNzczMzk1NCwibmJmIjoxNzM3NjQ3NTU0LCJpYXQiOjE3Mzc2NDc1NTQsImp0aSI6ImI5OWY0YzlmZjUzODRhNThhNDZjOTYzNWEwZGVhZDNlIiwidWlkIjoiNjcwZThmNDgxMDQ0NWEyYjAzNTI3YmYzIiwidHlwZSI6ImFjY2VzcyJ9.ANQ_lnZcwbC3eU6JpGLY-Q9UMDM2XDbh2elwDuawm0s"
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
                 "image": ("IMAGE",),
-                "prompt": ("STRING", {"default": "让画面整体动起来"}),
-                "bearer_token": ("STRING", {
-                    "default": "eyJhbGciOiJIUzzI1NiI2222sInR5cCI6IkpXVCJ9.eyJzdWIiOi3I2ZTY43MWIyN2NlM2U0MzMxYmIzNmRmODY1Yjk4NDAzNiIsImV4cCI6MTczNzYzMDI1NywibmJmIjoxNzM3NTQzODU3LCJpYXQiOjE3Mzc1NDM4NTcsImp0aSI6ImFiMDZjYjNiN2IzNDQyNmNhZGMxYjkwNzE2OTk1ZGExIiwidWlkIjoiNjcwZThmNDgxMDQ0NWEyYjAzNTI3YmYzIiwidHlwZSI6ImFjY2VzcyJ9.Cc3EKq-o7hoiH7_gdFBE1Y4_CHTsf2dYtA2YgizXtUo",
-                    "multiline": False
-                })
+                "prompt": ("STRING", {"default": "让画面整体动起来"}) 
             }
         }
     
@@ -87,7 +83,7 @@ class CogVideoUploader:
             "x-app-version": "0.0.1",
             "x-lang": "zh",
             "x-device-brand": "",
-            "x-device-id": "6d33b3d69a204ac6bea0568300b2ae8c",
+            "x-device-id": "1677996d572d47d8851cef5c8e119cb8",
             "x-device-model": "",
             "priority": "u=1, i",
             "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
@@ -139,7 +135,7 @@ class CogVideoUploader:
             "x-app-version": "0.0.1",
             "x-lang": "zh",
             "x-device-brand": "",
-            "x-device-id": "6d33b3d69a204ac6bea0568300b2ae8c",
+            "x-device-id": "1677996d572d47d8851cef5c8e119cb8",
             "x-device-model": "",
             "priority": "u=1, i",
         }
@@ -149,9 +145,9 @@ class CogVideoUploader:
             "conversation_id": "",
             "source_list": [source_id],
             "base_parameter_extra": {
-                "generation_pattern": 1,
-                "resolution": 0,
-                "fps": 0,
+                "generation_pattern": 2,
+                "resolution": 1,
+                "fps": 1,
                 "duration": 1,
                 "generation_ai_audio": 0,
                 "generation_ratio_height": 9,
@@ -215,7 +211,7 @@ class CogVideoUploader:
         else:
             raise Exception(f"Status check failed: {response.text}")
 
-    def generate_video(self, image, prompt, bearer_token):
+    def generate_video(self, image, prompt):
         try:
             print(f"Input image type: {type(image)}")
             print(f"Input image shape: {image.shape if hasattr(image, 'shape') else 'no shape'}")
@@ -236,16 +232,16 @@ class CogVideoUploader:
             first_image = Image.fromarray(img_numpy)
             
             # 上传图片
-            source_id, source_url = self.upload_image(first_image, bearer_token)
+            source_id, source_url = self.upload_image(first_image, self.bearer_token)
             print(f"Image uploaded: source_id={source_id}, url={source_url}")
             
             # 开始生成视频
-            chat_id = self.start_video_generation(source_id, prompt, bearer_token)
+            chat_id = self.start_video_generation(source_id, prompt, self.bearer_token)
             print(f"Started video generation: chat_id={chat_id}")
             
             # 检查状态直到完成
             while True:
-                status = self.check_video_status(chat_id, bearer_token)
+                status = self.check_video_status(chat_id, self.bearer_token)
                 print(f"Status check: {status}")
                 if status['status'] == 'finished':
                     if status['video_url']:
@@ -280,7 +276,7 @@ class CogVideoStatus:
     CATEGORY = "CogVideo"
 
     def __init__(self):
-        self.bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZTY3MWIyN2NlM2U0MzMxYmIzNmRmODY1Yjk4NDAzNiIsImV4cCI6MTczNzYzMDI1NywibmJmIjoxNzM3NTQzODU3LCJpYXQiOjE3Mzc1NDM4NTcsImp0aSI6ImFiMDZjYjNiN2IzNDQyNmNhZGMxYjkwNzE2OTk1ZGExIiwidWlkIjoiNjcwZThmNDgxMDQ0NWEyYjAzNTI3YmYzIiwidHlwZSI6ImFjY2VzcyJ9.Cc3EKq-o7hoiH7_gdFBE1Y4_CHTsf2dYtA2YgizXtUo"
+        self.bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZTY3MWIyN2NlM2U0MzMxYmIzNmRmODY1Yjk4NDAzNiIsImV4cCI6MTczNzczMzk1NCwibmJmIjoxNzM3NjQ3NTU0LCJpYXQiOjE3Mzc2NDc1NTQsImp0aSI6ImI5OWY0YzlmZjUzODRhNThhNDZjOTYzNWEwZGVhZDNlIiwidWlkIjoiNjcwZThmNDgxMDQ0NWEyYjAzNTI3YmYzIiwidHlwZSI6ImFjY2VzcyJ9.ANQ_lnZcwbC3eU6JpGLY-Q9UMDM2XDbh2elwDuawm0s"
         self.base_url = "https://chatglm.cn/chatglm/video-api/v1"
 
     def check_status(self, chat_id):
